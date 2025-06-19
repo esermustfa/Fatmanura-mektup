@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Romantik Not</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff0f5;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      flex-direction: column;
+    }
+
+    .envelope {
+      width: 200px;
+      height: 120px;
+      background-color: pink;
+      border: 2px solid deeppink;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+    }
+
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 60px solid deeppink;
+      z-index: 2;
+    }
+
+    .note {
+      border: 2px solid pink;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      background-color: white;
+      box-shadow: 0 0 20px pink;
+      max-width: 400px;
+      position: relative;
+      display: none;
+      animation: slideUp 1s forwards;
+      margin-top: 20px;
+    }
+
+    @keyframes slideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(100px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .note::before, .note::after {
+      content: "❤️";
+      font-size: 24px;
+      position: absolute;
+    }
+
+    .note::before {
+      top: -10px;
+      left: -10px;
+    }
+
+    .note::after {
+      bottom: -10px;
+      right: -10px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .yes {
+      background-color: pink;
+      color: white;
+    }
+
+    .no {
+      background-color: #ccc;
+      color: black;
+    }
+
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 24px;
+      animation: float 4s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .love-message {
+      font-size: 24px;
+      color: red;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="envelope" onclick="openEnvelope()">
+    <p style="text-align:center; padding-top:80px; font-weight:bold; color:white;">Tıkla ve aç 📩</p>
+  </div>
+
+  <div class="note" id="note">
+    <p><strong>Sana bakınca her şey duruyor.<br>(Zaman da, mantığım da 😅)<br>Seni deli gibi seviyorum.</strong></p>
+    <div class="buttons">
+      <button class="yes" onclick="showLove()">Ben de seni seviyorum</button>
+      <button class="no" onclick="showError()">HAYIR</button>
+    </div>
+    <div id="response"></div>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    function openEnvelope() {
+      document.getElementById("note").style.display = "block";
+      document.querySelector(".envelope").style.display = "none";
+    }
+
+    function showLove() {
+      const response = document.getElementById("response");
+      response.innerHTML = `<div class="love-message">❤️ LOVE ❤️ SENİ SEVİYORUM ❤️FATMA NUR❤️</div>`;
+      const hearts = document.getElementById("hearts");
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.innerText = "💖";
+        hearts.appendChild(heart);
+        setTimeout(() => {
+          heart.remove();
+        }, 4000);
+      }
+    }
+
+    function showError() {
+      const response = document.getElementById("response");
+      response.innerHTML = `<div class="error">❌ HAYIR CEVABI BULUNAMADI ❌</div>`;
+      setTimeout(() => {
+        response.innerHTML += `<br><button class="yes" onclick="showLove()">Ben de seni seviyorum</button>`;
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>
